@@ -50,7 +50,7 @@ body,
 }
 
 #calendar-root {
-  width: 440px;
+  width: 420px;
   transition: all 0.22s;
   /* height: 480px; */
 }

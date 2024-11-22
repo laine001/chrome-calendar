@@ -16,4 +16,6 @@ export interface CalendarItemType {
   lunarYear?: number
   isCurrentMonth?: boolean
   currentDate?: string
+  solarFestival?: string
+  lunarFestival?: string
 }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Dropdown, MenuProps } from "antd";
 import {
   getCurrentDay,
@@ -8,6 +8,8 @@ import {
   getWeekDay,
   formatNum,
   sloarToLunar,
+  getSolarFestival,
+  getLunarFestival,
 } from "./utils";
 
 import type { CalendarItemType } from "./interface";
@@ -93,6 +95,8 @@ export default () => {
         isYesterday: i + 1 === currentDay - 1,
         currentDate: `${currentYear}-${currentMonth}-${i + 1}`,
         lunarDate: sloarToLunar(currentYear, currentMonth, i + 1),
+        solarFestival: getSolarFestival(currentYear, currentMonth, i + 1),
+        lunarFestival: getLunarFestival(currentYear, currentMonth, i + 1),
       });
     }
 
@@ -140,6 +144,9 @@ export default () => {
     }
     if (!item.isCurrentMonth) {
       arr.push("ik-calendar__days-next-month");
+    }
+    if (item.solarFestival === '结婚纪念日') {
+      arr.push('is-pink-bg')
     }
     return arr.join(" ");
   };
@@ -203,7 +210,7 @@ export default () => {
             <span className="ik-calendar__date-info-symb">月</span>
             {/* {currentDay} */}
           </div>
-          <span className="ik-calendar__week-info">{currentWeek}</span>
+          {/* <span className="ik-calendar__week-info">{currentWeek}</span> */}
         </div>
         <div className="ik-calendar__opeation">
           <button
@@ -252,7 +259,11 @@ export default () => {
           return (
             <div key={key} className={itemClassNames(item)}>
               <span className="cal-day">{item.day}</span>
-              <span className="cal-lunar-day">{item.lunarDate.lunarDay}</span>
+              {item.solarFestival ? (
+                <span className='cal-lunar-day cal-solar-festival'>{item.solarFestival}</span>
+              ) : (
+                <span className="cal-lunar-day">{item.lunarDate.lunarDay}</span>
+              )}
             </div>
           );
         })}
